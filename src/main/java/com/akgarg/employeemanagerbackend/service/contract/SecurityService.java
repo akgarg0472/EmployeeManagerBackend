@@ -1,15 +1,15 @@
 package com.akgarg.employeemanagerbackend.service.contract;
 
-import com.akgarg.employeemanagerbackend.model.CsrfTokenResponse;
+import com.akgarg.employeemanagerbackend.model.LoginRequest;
+import com.akgarg.employeemanagerbackend.model.LoginResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface SecurityService {
 
-    public boolean authenticate(HttpServletRequest request, String username, char[] password);
+    public LoginResponse authenticate(HttpServletRequest req, HttpServletResponse res, LoginRequest request);
 
-    public CsrfTokenResponse generateCSRF(HttpServletRequest request, HttpServletResponse response, boolean store);
+    public String getCSRFToken(HttpServletRequest request, HttpServletResponse response);
 
-    public CsrfTokenResponse getCSRFToken(HttpServletRequest request, HttpServletResponse response);
 }

@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 @EnableWebSecurity
 @Configuration
@@ -30,16 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider getDaoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        // authenticationProvider.setPasswordEncoder(this.getBCryptPasswordEncoder());
-        authenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        authenticationProvider.setPasswordEncoder(this.getBCryptPasswordEncoder());
         authenticationProvider.setUserDetailsService(this.getUserDetailsService());
         return authenticationProvider;
     }
-//
-//
-//
-//
-//
 
     @Bean
     public AuthenticationManager getAuthenticationManager() throws Exception {
@@ -50,16 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-//
-//
-//
-//
-//
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(this.getDaoAuthenticationProvider());
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

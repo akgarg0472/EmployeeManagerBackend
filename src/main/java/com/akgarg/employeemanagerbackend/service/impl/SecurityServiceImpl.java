@@ -1,7 +1,9 @@
 package com.akgarg.employeemanagerbackend.service.impl;
 
-import com.akgarg.employeemanagerbackend.model.CsrfTokenResponse;
+import com.akgarg.employeemanagerbackend.model.LoginRequest;
+import com.akgarg.employeemanagerbackend.model.LoginResponse;
 import com.akgarg.employeemanagerbackend.service.contract.SecurityService;
+import com.akgarg.employeemanagerbackend.utils.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,39 +33,44 @@ public class SecurityServiceImpl implements SecurityService {
 
 
     @Override
-    public boolean authenticate(HttpServletRequest request, String username, char[] password) {
+    public LoginResponse authenticate(HttpServletRequest req, HttpServletResponse res, LoginRequest request) {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, Arrays.toString(password));
+                new UsernamePasswordAuthenticationToken(request.getEmail(), Arrays.toString(request.getPassword()));
 
         try {
             Authentication authenticate = authenticationManager.authenticate(authenticationToken);
             SecurityContext sc = SecurityContextHolder.getContext();
             sc.setAuthentication(authenticate);
-            HttpSession session = request.getSession(true);
+            HttpSession session = req.getSession(true);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
-            return sc.getAuthentication().isAuthenticated();
+
+            if (sc.getAuthentication().isAuthenticated()) {
+                String csrfToken = this.getCSRFToken(req, res);
+                session.setAttribute("auth_token", csrfToken);
+                session.setAttribute("auth_id", sc.getAuthentication().getCredentials());
+
+                return new LoginResponse("Login successful", ConstantUtils.AUTHENTICATION_SUCCESS, request.getEmail(),
+                        csrfToken, "2318");
+            }
+
+            // todo fix (although very rare to reach this point)
+            return null;
         } catch (AuthenticationException e) {
-            System.out.println(e.getMessage());
-            return false;
+            return new LoginResponse(e.getMessage(), ConstantUtils.AUTHENTICATION_FAILED,
+                    null, null, null);
         }
     }
 
 
     @Override
-    public CsrfTokenResponse generateCSRF(HttpServletRequest request, HttpServletResponse response, boolean store) {
+    public String getCSRFToken(HttpServletRequest request, HttpServletResponse response) {
         HttpSessionCsrfTokenRepository csrfTokenRepository = new HttpSessionCsrfTokenRepository();
         CsrfToken loadToken = csrfTokenRepository.loadToken(request);
         CsrfToken csrfToken = loadToken != null ? loadToken : csrfTokenRepository.generateToken(request);
         csrfTokenRepository.saveToken(csrfToken, request, response);
 
-        return new CsrfTokenResponse("CSRF token generated successfully", csrfToken.getToken(), 200);
+        return csrfToken.getToken();
     }
 
-
-    @Override
-    public CsrfTokenResponse getCSRFToken(HttpServletRequest request, HttpServletResponse response) {
-        CsrfToken csrfToken = new HttpSessionCsrfTokenRepository().loadToken(request);
-        return new CsrfTokenResponse("Generated token", csrfToken.getToken(), 200);
-    }
 
 }

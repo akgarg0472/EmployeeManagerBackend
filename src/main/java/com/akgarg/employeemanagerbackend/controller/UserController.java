@@ -26,6 +26,7 @@ public class UserController {
     @RequestMapping(value = "/employees", method = RequestMethod.GET)
     public EmployeeResponse getAllEmployees() {
         // todo later
+        System.out.println("getAllEmployees() called");
         List<Employee> employeeList = this.userService.getAllEmployeesUsingUserId("");
         return new EmployeeResponse(employeeList, "Request success", 200);
     }
