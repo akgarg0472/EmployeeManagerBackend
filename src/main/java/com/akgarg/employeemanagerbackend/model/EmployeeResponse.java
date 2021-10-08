@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 public class EmployeeResponse {
 
+    Object payload;
     private String message;
     private int status;
 }

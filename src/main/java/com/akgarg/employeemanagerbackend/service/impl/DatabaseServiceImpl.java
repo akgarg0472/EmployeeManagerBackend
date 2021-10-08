@@ -76,7 +76,14 @@ public class DatabaseServiceImpl implements DatabaseService {
 
     @Override
     public boolean deleteUserByEmail(String email) {
-        return this.userRepository.deleteByEmail(email) == 1;
+        User user = getUserByEmail(email);
+
+        int deleteByEmail = this.userRepository.deleteByEmail(email);
+        if (deleteByEmail == 1) {
+            this.deleteEmployeesByUserId(user.getId());
+        }
+
+        return deleteByEmail == 1;
     }
 
     @Override
@@ -98,15 +105,15 @@ public class DatabaseServiceImpl implements DatabaseService {
      * */
 
     @Override
-    public void addEmployee(Employee employee) {
-        this.employeeRepository.save(employee);
+    public Employee addEmployee(Employee employee) {
+        return this.employeeRepository.save(employee);
     }
 
     @Override
-    public void addEmployee(String userId, String firstName, String lastName, String email,
-                            String address, String phone, String department) {
+    public Employee addEmployee(String userId, String firstName, String lastName, String email,
+                                String address, String phone, String department) {
         Employee employee = new Employee(userId, firstName, lastName, email, address, phone, department);
-        this.addEmployee(employee);
+        return this.addEmployee(employee);
     }
 
     @Override
@@ -136,7 +143,8 @@ public class DatabaseServiceImpl implements DatabaseService {
     }
 
     @Override
-    public void updateEmployee(String userId, String employeeId, String firstName, String lastName, String email, String address, String phone, String department) {
+    public void updateEmployee(String userId, String employeeId, String firstName, String lastName,
+                               String email, String address, String phone, String department) {
         Employee employee = new Employee();
         this.updateEmployee(employee);
     }

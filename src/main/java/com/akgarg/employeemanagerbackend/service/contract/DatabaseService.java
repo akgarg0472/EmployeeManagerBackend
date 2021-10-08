@@ -38,9 +38,9 @@ public interface DatabaseService {
     //
     //
 
-    void addEmployee(Employee employee);
+    Employee addEmployee(Employee employee);
 
-    void addEmployee(String userId, String firstName, String lastName,
+    Employee addEmployee(String userId, String firstName, String lastName,
                      String email, String address, String phone, String department);
 
     Employee getEmployeeByEmployeeId(String employeeId);

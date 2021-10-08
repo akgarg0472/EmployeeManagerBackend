@@ -4,12 +4,13 @@ import com.akgarg.employeemanagerbackend.entity.Employee;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public interface UserService {
 
-    void saveEmployee(Employee employee);
+    Employee saveEmployee(Employee employee);
 
-    void saveEmployee(String userId, String firstName, String lastName, String email,
-                      String address, String phone, String department);
+    Employee saveEmployee(String userId, String firstName, String lastName, String email,
+                          String address, String phone, String department);
 
     Employee getEmployee(String employeeEmail);
 

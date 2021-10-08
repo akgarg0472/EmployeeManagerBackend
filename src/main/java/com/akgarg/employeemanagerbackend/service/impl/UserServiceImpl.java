@@ -19,18 +19,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) {
         if (employee == null) {
             throw new ApplicationException("Employee can't be null");
         }
 
-        this.databaseService.addEmployee(employee);
+        return this.databaseService.addEmployee(employee);
     }
 
     @Override
-    public void saveEmployee(String userId, String firstName, String lastName, String email, String address, String phone, String department) {
+    public Employee saveEmployee(String userId, String firstName, String lastName, String email,
+                                 String address, String phone, String department) {
         Employee employee = new Employee(userId, firstName, lastName, email, address, phone, department);
-        this.saveEmployee(employee);
+        return this.saveEmployee(employee);
     }
 
     @Override
@@ -60,7 +61,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateEmployee(String userId, String employeeId, String firstName, String lastName, String email, String address, String phone, String department) {
+    public boolean updateEmployee(String userId, String employeeId, String firstName, String lastName,
+                                  String email, String address, String phone, String department) {
         this.databaseService.updateEmployee(userId, employeeId, firstName, lastName, email, address, phone, department);
         return true;
     }

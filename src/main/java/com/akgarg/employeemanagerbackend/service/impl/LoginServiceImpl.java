@@ -23,7 +23,8 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public LoginResponse doLogin(LoginRequest request) {
         if (!this.databaseService.isEmailRegistered(request.getEmail())) {
-            return new LoginResponse("Email not registered", ConstantUtils.USER_UNREGISTERED, null, null, null);
+            return new LoginResponse("Email not registered", ConstantUtils.USER_UNREGISTERED,
+                    null, null, null);
         }
 
         User user = this.databaseService.getUserByEmail(request.getEmail());
