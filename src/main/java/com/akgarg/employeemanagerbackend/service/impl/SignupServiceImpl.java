@@ -28,6 +28,12 @@ public class SignupServiceImpl implements SignupService {
         user.setPassword(Arrays.toString(request.getPassword()));
         user.setPhone(request.getPhone());
 
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+
+        user.setRole("ROLE_USER");
+
         return this.databaseService.addUser(user);
     }
 }

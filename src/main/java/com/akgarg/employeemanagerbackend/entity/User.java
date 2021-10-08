@@ -20,6 +20,11 @@ public class User {
     private String email;
     private String password;
     private String phone;
+    private String role;
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
+    private boolean enabled;
 
     public User(String firstName,
                 String lastName,
