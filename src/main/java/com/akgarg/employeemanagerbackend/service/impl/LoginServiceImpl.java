@@ -1,7 +1,7 @@
 package com.akgarg.employeemanagerbackend.service.impl;
 
 import com.akgarg.employeemanagerbackend.model.LoginRequest;
-import com.akgarg.employeemanagerbackend.model.LoginResponse;
+import com.akgarg.employeemanagerbackend.model.JwtLoginResponse;
 import com.akgarg.employeemanagerbackend.service.contract.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class LoginServiceImpl implements LoginService {
 
 
     @Override
-    public LoginResponse doLogin(HttpServletRequest req, HttpServletResponse res, LoginRequest request) {
+    public JwtLoginResponse doLogin(HttpServletRequest req, HttpServletResponse res, LoginRequest request) {
         return this.securityService.authenticate(req, res, request);
     }
 }

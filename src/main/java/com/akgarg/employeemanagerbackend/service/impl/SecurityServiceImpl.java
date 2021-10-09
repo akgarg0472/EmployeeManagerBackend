@@ -1,7 +1,7 @@
 package com.akgarg.employeemanagerbackend.service.impl;
 
 import com.akgarg.employeemanagerbackend.model.LoginRequest;
-import com.akgarg.employeemanagerbackend.model.LoginResponse;
+import com.akgarg.employeemanagerbackend.model.JwtLoginResponse;
 import com.akgarg.employeemanagerbackend.service.contract.SecurityService;
 import com.akgarg.employeemanagerbackend.utils.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class SecurityServiceImpl implements SecurityService {
 
 
     @Override
-    public LoginResponse authenticate(HttpServletRequest req, HttpServletResponse res, LoginRequest request) {
+    public JwtLoginResponse authenticate(HttpServletRequest req, HttpServletResponse res, LoginRequest request) {
         try {
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(request.getEmail(), Arrays.toString(request.getPassword()));
@@ -53,7 +53,7 @@ public class SecurityServiceImpl implements SecurityService {
 //                session.setAttribute("auth_token", csrfToken);
 //                session.setAttribute("auth_id", securityContext.getAuthentication().getCredentials());
 
-                return new LoginResponse("Login successful", ConstantUtils.AUTHENTICATION_SUCCESS, request.getEmail(),
+                return new JwtLoginResponse("Login successful", ConstantUtils.AUTHENTICATION_SUCCESS, request.getEmail(),
                         csrfToken, "2318");
             }
 
@@ -61,7 +61,7 @@ public class SecurityServiceImpl implements SecurityService {
             return null;
         } catch (AuthenticationException e) {
             SecurityContextHolder.getContext().setAuthentication(null);
-            return new LoginResponse(e.getMessage(), ConstantUtils.AUTHENTICATION_FAILED,
+            return new JwtLoginResponse(e.getMessage(), ConstantUtils.AUTHENTICATION_FAILED,
                     null, null, null);
         }
     }

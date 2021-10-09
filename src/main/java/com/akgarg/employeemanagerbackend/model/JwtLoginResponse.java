@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class LoginResponse {
+public class JwtLoginResponse {
 
     private String message;
     private int status;
