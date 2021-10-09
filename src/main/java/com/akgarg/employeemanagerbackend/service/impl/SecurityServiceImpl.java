@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.stereotype.Service;
@@ -34,20 +33,25 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public LoginResponse authenticate(HttpServletRequest req, HttpServletResponse res, LoginRequest request) {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(request.getEmail(), Arrays.toString(request.getPassword()));
-
         try {
-            Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-            SecurityContext sc = SecurityContextHolder.getContext();
-            sc.setAuthentication(authenticate);
-            HttpSession session = req.getSession(true);
-            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), Arrays.toString(request.getPassword()));
 
-            if (sc.getAuthentication().isAuthenticated()) {
+            // Authenticates the user
+            Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+            securityContext.setAuthentication(authenticate);
+            SecurityContextHolder.setContext(securityContext);
+
+            // Add the security context to session
+            HttpSession session = req.getSession();
+            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+
+            if (securityContext.getAuthentication().isAuthenticated()) {
+                System.out.println(securityContext.getAuthentication().getAuthorities());
                 String csrfToken = this.getCSRFToken(req, res);
-                session.setAttribute("auth_token", csrfToken);
-                session.setAttribute("auth_id", sc.getAuthentication().getCredentials());
+//                session.setAttribute("auth_token", csrfToken);
+//                session.setAttribute("auth_id", securityContext.getAuthentication().getCredentials());
 
                 return new LoginResponse("Login successful", ConstantUtils.AUTHENTICATION_SUCCESS, request.getEmail(),
                         csrfToken, "2318");
@@ -56,6 +60,7 @@ public class SecurityServiceImpl implements SecurityService {
             // todo fix (although very rare to reach this point)
             return null;
         } catch (AuthenticationException e) {
+            SecurityContextHolder.getContext().setAuthentication(null);
             return new LoginResponse(e.getMessage(), ConstantUtils.AUTHENTICATION_FAILED,
                     null, null, null);
         }
@@ -67,7 +72,6 @@ public class SecurityServiceImpl implements SecurityService {
         HttpSessionCsrfTokenRepository csrfTokenRepository = new HttpSessionCsrfTokenRepository();
         CsrfToken loadToken = csrfTokenRepository.loadToken(request);
         CsrfToken csrfToken = loadToken != null ? loadToken : csrfTokenRepository.generateToken(request);
-        csrfTokenRepository.saveToken(csrfToken, request, response);
 
         return csrfToken.getToken();
     }

@@ -57,9 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/user/**").hasRole("USER")
                 .anyRequest().permitAll()
                 .and()
+                .formLogin().disable()
                 .cors()
                 .and()
                 .csrf().disable();
     }
-
 }

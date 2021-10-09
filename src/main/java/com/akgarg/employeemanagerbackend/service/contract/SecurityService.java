@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface SecurityService {
 
-    public LoginResponse authenticate(HttpServletRequest req, HttpServletResponse res, LoginRequest request);
+    LoginResponse authenticate(HttpServletRequest req, HttpServletResponse res, LoginRequest request);
 
-    public String getCSRFToken(HttpServletRequest request, HttpServletResponse response);
+    String getCSRFToken(HttpServletRequest request, HttpServletResponse response);
 
 }

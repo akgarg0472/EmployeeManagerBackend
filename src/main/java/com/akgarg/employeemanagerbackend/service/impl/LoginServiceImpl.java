@@ -12,13 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    private final DatabaseServiceImpl databaseService;
     private final SecurityServiceImpl securityService;
 
     @Autowired
-    public LoginServiceImpl(DatabaseServiceImpl databaseService,
-                            SecurityServiceImpl securityService) {
-        this.databaseService = databaseService;
+    public LoginServiceImpl(SecurityServiceImpl securityService) {
         this.securityService = securityService;
     }
 

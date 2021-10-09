@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -23,13 +24,15 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @RequestMapping(value = "/employees", method = RequestMethod.GET)
-    public EmployeeResponse getAllEmployees() {
+    public EmployeeResponse getAllEmployees(HttpServletRequest request) {
         // todo later
-        System.out.println("getAllEmployees() called");
+        System.out.println("getAllEmployees() called: ");
         List<Employee> employeeList = this.userService.getAllEmployeesUsingUserId("");
         return new EmployeeResponse(employeeList, "Request success", 200);
     }
+
 
     @RequestMapping(value = "/employee", method = RequestMethod.GET)
     public EmployeeResponse getEmployee() {

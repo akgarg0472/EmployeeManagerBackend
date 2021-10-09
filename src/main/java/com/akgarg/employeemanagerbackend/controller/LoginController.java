@@ -5,7 +5,6 @@ import com.akgarg.employeemanagerbackend.model.LoginRequest;
 import com.akgarg.employeemanagerbackend.model.LoginResponse;
 import com.akgarg.employeemanagerbackend.service.impl.LoginServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +30,7 @@ public class LoginController {
 
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public GeneralResponse info(Principal principal) {
-        System.out.println("info called: " + principal);
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
+    public GeneralResponse info(Principal principal, HttpServletRequest request) {
         return new GeneralResponse("generated principal is: ", principal);
     }
 
