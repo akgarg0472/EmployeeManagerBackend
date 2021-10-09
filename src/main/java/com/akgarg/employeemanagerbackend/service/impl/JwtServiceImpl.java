@@ -1,7 +1,7 @@
 package com.akgarg.employeemanagerbackend.service.impl;
 
-import com.akgarg.employeemanagerbackend.model.LoginRequest;
 import com.akgarg.employeemanagerbackend.model.JwtLoginResponse;
+import com.akgarg.employeemanagerbackend.model.LoginRequest;
 import com.akgarg.employeemanagerbackend.security.UserDetailsImpl;
 import com.akgarg.employeemanagerbackend.security.UserDetailsServiceImpl;
 import com.akgarg.employeemanagerbackend.service.contract.JwtService;
@@ -23,7 +23,6 @@ public class JwtServiceImpl implements JwtService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
 
-
     @Autowired
     public JwtServiceImpl(JWTHelperUtil jwtHelperUtil,
                           AuthenticationManager authenticationManager,
@@ -32,6 +31,7 @@ public class JwtServiceImpl implements JwtService {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
     }
+
 
     @Override
     public JwtLoginResponse authenticateUserAndGenerateJwtToken(LoginRequest request) {

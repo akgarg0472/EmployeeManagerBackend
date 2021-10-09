@@ -3,6 +3,7 @@ package com.akgarg.employeemanagerbackend.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +17,12 @@ import java.util.function.Function;
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class JWTHelperUtil {
 
-    // use strong secret key when implementing in real project.
-    // This is demo key just for demonstration
-    private final String SECRET_KEY = "secret";
-
     // how much time token will be valid for authentication
     private final int JWT_TOKEN_VALIDITY = 1000 * 60 * 60 * 10;
+
+    // secret key to generate JWT Token
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -40,7 +41,6 @@ public class JWTHelperUtil {
 
 
     private Claims extractAllClaims(String token) {
-        System.out.println("Token: " + token);
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
