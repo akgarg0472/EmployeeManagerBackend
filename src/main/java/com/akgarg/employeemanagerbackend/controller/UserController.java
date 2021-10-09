@@ -4,10 +4,7 @@ import com.akgarg.employeemanagerbackend.entity.Employee;
 import com.akgarg.employeemanagerbackend.model.EmployeeResponse;
 import com.akgarg.employeemanagerbackend.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -28,16 +25,15 @@ public class UserController {
     @RequestMapping(value = "/employees", method = RequestMethod.GET)
     public EmployeeResponse getAllEmployees(HttpServletRequest request) {
         // todo later
-        System.out.println("getAllEmployees() called: ");
-        List<Employee> employeeList = this.userService.getAllEmployeesUsingUserId("");
+        List<Employee> employeeList = this.userService.getAllEmployeesUsingUserId(request.getHeader("userId"));
         return new EmployeeResponse(employeeList, "Request success", 200);
     }
 
 
-    @RequestMapping(value = "/employee", method = RequestMethod.GET)
-    public EmployeeResponse getEmployee() {
+    @RequestMapping(value = "/employee/{employeeId}", method = RequestMethod.GET)
+    public EmployeeResponse getEmployee(@PathVariable String employeeId) {
         // todo later
-        Employee employee = this.userService.getEmployeeUsingEmployeeId("");
+        Employee employee = this.userService.getEmployeeUsingEmployeeId(employeeId);
         return new EmployeeResponse(employee, "Request success", 200);
     }
 

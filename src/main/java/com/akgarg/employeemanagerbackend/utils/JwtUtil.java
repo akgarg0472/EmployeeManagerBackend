@@ -15,7 +15,7 @@ import java.util.function.Function;
 // class contain methods to generate token, validate token, check token expiration etc
 @Component
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
-public class JWTHelperUtil {
+public class JwtUtil {
 
     // how much time token will be valid for authentication
     private final int JWT_TOKEN_VALIDITY = 1000 * 60 * 60 * 10;

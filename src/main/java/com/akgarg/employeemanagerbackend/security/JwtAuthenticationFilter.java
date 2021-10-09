@@ -1,6 +1,6 @@
 package com.akgarg.employeemanagerbackend.security;
 
-import com.akgarg.employeemanagerbackend.utils.JWTHelperUtil;
+import com.akgarg.employeemanagerbackend.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,13 +20,13 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JWTHelperUtil jwtHelperUtil;
+    private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    public JwtAuthenticationFilter(JWTHelperUtil jwtHelperUtil,
+    public JwtAuthenticationFilter(JwtUtil jwtUtil,
                                    UserDetailsServiceImpl userDetailsService) {
-        this.jwtHelperUtil = jwtHelperUtil;
+        this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
     }
 
@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
-                username = this.jwtHelperUtil.extractUsername(jwtToken);
+                username = this.jwtUtil.extractUsername(jwtToken);
             } catch (Exception e) {
                 e.printStackTrace();
             }
