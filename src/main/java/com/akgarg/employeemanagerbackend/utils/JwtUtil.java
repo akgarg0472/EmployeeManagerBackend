@@ -18,7 +18,8 @@ import java.util.function.Function;
 public class JwtUtil {
 
     // how much time token will be valid for authentication
-    private final int JWT_TOKEN_VALIDITY = 1000 * 60 * 60 * 10;
+    // 60000 * minutes = validity milliseconds
+    private final int JWT_TOKEN_VALIDITY = 1000 * 60 * 30;
 
     // secret key to generate JWT Token
     @Value("${jwt.secret}")
