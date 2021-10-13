@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Document("employee")
 public class Employee {
@@ -38,4 +38,5 @@ public class Employee {
         this.phone = phone;
         this.department = department;
     }
+
 }

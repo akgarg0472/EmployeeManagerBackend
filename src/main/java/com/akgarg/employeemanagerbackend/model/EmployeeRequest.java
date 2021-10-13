@@ -10,11 +10,10 @@ import lombok.*;
 public class EmployeeRequest {
 
     private String userId;
-
     private String employeeId;
-
     private String firstName;
     private String lastName;
     private String email;
+    private String address;
     private String department;
 }
