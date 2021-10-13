@@ -45,4 +45,10 @@ public class UserController {
         Employee emp = this.userService.saveEmployee(employee);
         return new EmployeeResponse(emp, "Request success", 200);
     }
+
+
+    @RequestMapping(value = "/employee", method = RequestMethod.PUT)
+    public EmployeeResponse editEmployee() {
+        return new EmployeeResponse();
+    }
 }
