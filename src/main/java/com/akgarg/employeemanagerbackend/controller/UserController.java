@@ -4,6 +4,7 @@ import com.akgarg.employeemanagerbackend.entity.Employee;
 import com.akgarg.employeemanagerbackend.model.DeleteRequest;
 import com.akgarg.employeemanagerbackend.model.EmployeeRequest;
 import com.akgarg.employeemanagerbackend.model.EmployeeResponse;
+import com.akgarg.employeemanagerbackend.model.EmployeesResponse;
 import com.akgarg.employeemanagerbackend.service.impl.UserServiceImpl;
 import com.akgarg.employeemanagerbackend.utils.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class UserController {
 
     private final UserServiceImpl userService;
 
+
     @Autowired
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
@@ -33,7 +35,7 @@ public class UserController {
             return new EmployeeResponse(null, "Session expired, Please login again", ConstantUtils.AUTHENTICATION_FAILED);
         }
 
-        List<Employee> employeeList = this.userService.getAllEmployeesUsingUserId(request.getHeader("userId"));
+        List<EmployeesResponse> employeeList = this.userService.getAllEmployeesUsingUserId(request.getHeader("userId"));
         return new EmployeeResponse(employeeList, "Request success", 200);
     }
 
@@ -58,9 +60,17 @@ public class UserController {
         }
 
         // todo later
-        Employee employee = new Employee();
-        Employee emp = this.userService.saveEmployee(employee);
-        return new EmployeeResponse(emp, "Request success", 200);
+        Employee saveEmployee = new Employee(
+                employeeRequest.getUserId(),
+                employeeRequest.getFirstName(),
+                employeeRequest.getLastName(),
+                employeeRequest.getEmail(),
+                employeeRequest.getAddress(),
+                employeeRequest.getPhone(),
+                employeeRequest.getDepartment()
+        );
+        Employee employee = this.userService.saveEmployee(saveEmployee);
+        return new EmployeeResponse(employee, "Request success", 200);
     }
 
 
@@ -78,11 +88,10 @@ public class UserController {
     @RequestMapping(value = "/employee", method = RequestMethod.DELETE)
     public EmployeeResponse deleteEmployee(@RequestBody DeleteRequest deleteRequest, Principal principal) {
         if (principal == null) {
-            return new EmployeeResponse
-                    (null, "Please login again to continue", ConstantUtils.AUTHENTICATION_FAILED);
+            return new EmployeeResponse(null, "Please login again to continue", ConstantUtils.AUTHENTICATION_FAILED);
         }
 
-        boolean deleteEmployee = this.userService.deleteEmployee(deleteRequest.getEmp_id(), deleteRequest.getAuth_Id());
+        boolean deleteEmployee = this.userService.deleteEmployee(deleteRequest.getEmp_id(), deleteRequest.getAuth_id());
         return deleteEmployee ?
                 new EmployeeResponse("", "Employee deleted successfully", 200)
                 :

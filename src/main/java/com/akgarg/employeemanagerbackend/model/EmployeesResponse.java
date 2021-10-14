@@ -4,17 +4,14 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class EmployeeRequest {
+public class EmployeesResponse {
 
-    private String userId;
-    private String employeeId;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
-    private String address;
-    private String phone;
     private String department;
 }

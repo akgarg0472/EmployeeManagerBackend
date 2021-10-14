@@ -1,6 +1,7 @@
 package com.akgarg.employeemanagerbackend.service.contract;
 
 import com.akgarg.employeemanagerbackend.entity.Employee;
+import com.akgarg.employeemanagerbackend.model.EmployeesResponse;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface UserService {
 
     Employee getEmployeeUsingEmployeeId(String employeeId);
 
-    List<Employee> getAllEmployeesUsingUserId(String userId);
+    List<EmployeesResponse> getAllEmployeesUsingUserId(String userId);
 
     List<Employee> getAllEmployeesUsingDepartment(String employeeDepartment);
 
@@ -30,4 +31,5 @@ public interface UserService {
     boolean deleteEmployee(String employeeId, String userId);
 
     boolean deleteAllEmployees(String userId);
+
 }

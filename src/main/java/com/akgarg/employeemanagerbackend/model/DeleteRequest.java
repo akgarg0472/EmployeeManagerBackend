@@ -9,6 +9,6 @@ import lombok.*;
 @ToString
 public class DeleteRequest {
 
-    private String auth_Id;
+    private String auth_id;
     private String emp_id;
 }
