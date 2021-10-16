@@ -138,15 +138,15 @@ public class DatabaseServiceImpl implements DatabaseService {
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
-        this.addEmployee(employee);
+    public Employee updateEmployee(Employee employee) {
+        return this.addEmployee(employee);
     }
 
     @Override
-    public void updateEmployee(String userId, String employeeId, String firstName, String lastName,
-                               String email, String address, String phone, String department) {
-        Employee employee = new Employee();
-        this.updateEmployee(employee);
+    public Employee updateEmployee(String userId, String employeeId, String firstName, String lastName,
+                                   String email, String address, String phone, String department) {
+        Employee employee = new Employee(employeeId, userId, firstName, lastName, email, address, phone, department);
+        return this.updateEmployee(employee);
     }
 
     @Override

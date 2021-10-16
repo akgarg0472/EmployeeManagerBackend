@@ -8,7 +8,6 @@ import com.akgarg.employeemanagerbackend.model.EmployeesResponse;
 import com.akgarg.employeemanagerbackend.service.impl.UserServiceImpl;
 import com.akgarg.employeemanagerbackend.utils.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,13 +74,15 @@ public class UserController {
 
 
     @RequestMapping(value = "/employee", method = RequestMethod.PUT)
-    public EmployeeResponse editEmployee(@RequestBody @Nullable EmployeeRequest employeeRequest, Principal principal) {
+    public EmployeeResponse editEmployee(@RequestBody EmployeeRequest employeeRequest, Principal principal) {
         if (principal == null) {
             return new EmployeeResponse
                     (null, "Please login again to continue", ConstantUtils.AUTHENTICATION_FAILED);
         }
 
-        return new EmployeeResponse();
+        return this.userService.updateEmployee(employeeRequest) ?
+                new EmployeeResponse(null, "Employee updated successfully", 200) :
+                new EmployeeResponse(null, "Employee update failed", -1);
     }
 
 

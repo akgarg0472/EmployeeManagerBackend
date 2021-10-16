@@ -1,6 +1,7 @@
 package com.akgarg.employeemanagerbackend.service.contract;
 
 import com.akgarg.employeemanagerbackend.entity.Employee;
+import com.akgarg.employeemanagerbackend.model.EmployeeRequest;
 import com.akgarg.employeemanagerbackend.model.EmployeesResponse;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public interface UserService {
 
     boolean updateEmployee(String userId, String employeeId, String firstName, String lastName,
                            String email, String address, String phone, String department);
+
+    boolean updateEmployee(EmployeeRequest employeeRequest);
 
     boolean deleteEmployee(Employee employee);
 

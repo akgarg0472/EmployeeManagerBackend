@@ -39,4 +39,14 @@ public class Employee {
         this.department = department;
     }
 
+    public boolean compareEmployee(Employee employee) {
+        return this.id.equals(employee.getId()) &&
+                this.userId.equals(employee.getUserId()) &&
+                this.firstName.equals(employee.getFirstName()) &&
+                this.lastName.equals(employee.getLastName()) &&
+                this.email.equals(employee.getEmail()) &&
+                this.address.equals(employee.getAddress()) &&
+                this.phone.equals(employee.getPhone()) &&
+                this.department.equals(employee.getDepartment());
+    }
 }

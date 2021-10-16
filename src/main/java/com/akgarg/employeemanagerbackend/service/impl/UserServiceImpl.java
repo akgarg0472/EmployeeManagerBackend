@@ -1,6 +1,7 @@
 package com.akgarg.employeemanagerbackend.service.impl;
 
 import com.akgarg.employeemanagerbackend.entity.Employee;
+import com.akgarg.employeemanagerbackend.model.EmployeeRequest;
 import com.akgarg.employeemanagerbackend.model.EmployeesResponse;
 import com.akgarg.employeemanagerbackend.service.contract.UserService;
 import com.akgarg.employeemanagerbackend.utils.ApplicationException;
@@ -76,6 +77,18 @@ public class UserServiceImpl implements UserService {
                                   String email, String address, String phone, String department) {
         this.databaseService.updateEmployee(userId, employeeId, firstName, lastName, email, address, phone, department);
         return true;
+    }
+
+    @Override
+    public boolean updateEmployee(EmployeeRequest employeeRequest) {
+        return this.updateEmployee(
+                employeeRequest.getUserId(),
+                employeeRequest.getEmployeeId(),
+                employeeRequest.getFirstName(),
+                employeeRequest.getLastName(),
+                employeeRequest.getEmail(),
+                employeeRequest.getAddress(), employeeRequest.getPhone(),
+                employeeRequest.getDepartment());
     }
 
     @Override

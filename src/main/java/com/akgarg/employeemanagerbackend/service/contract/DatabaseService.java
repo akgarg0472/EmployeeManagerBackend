@@ -51,10 +51,10 @@ public interface DatabaseService {
 
     List<Employee> getEmployeesByDepartment(String department);
 
-    void updateEmployee(Employee employee);
+    Employee updateEmployee(Employee employee);
 
-    void updateEmployee(String userId, String employeeId, String firstName, String lastName,
-                        String email, String address, String phone, String department);
+    Employee updateEmployee(String userId, String employeeId, String firstName, String lastName,
+                            String email, String address, String phone, String department);
 
     int deleteEmployee(Employee employee);
 
